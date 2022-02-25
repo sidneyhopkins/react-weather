@@ -1,14 +1,15 @@
 import styled from "styled-components";
-import { SearchOutlined } from '@material-ui/icons';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 3%;
+  margin-top: 20px;
+  border-radius: 15px;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   margin-bottom: 10px;
 `;
 
@@ -16,7 +17,8 @@ const Input = styled.input`
   border: none;
   background: transparent;
   color: white;
-  font-size: 0.9em;
+  font-size: 1em;
+  padding: 4px 0;
   
   &:focus {
     outline: none;
@@ -43,11 +45,12 @@ function Search( props ) {
     return (
         <SearchBox>
           <Icon onClick={search} >
-            <SearchOutlined/>
+            <SearchIcon />
           </Icon>
           <Input 
+            autoComplete="off"
             type='text' 
-            placeholder='Search...' 
+            placeholder='Search' 
             value={query} 
             onChange={e => setQuery(e.target.value)} 
             onKeyPress={search} 

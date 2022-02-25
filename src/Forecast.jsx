@@ -1,3 +1,4 @@
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -5,98 +6,199 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.7);
-  margin-top: 20px;
-  padding: 10px 20px;
-  border-radius: 2%;
-  color: white;
+
   transition: all 0.5s ease-out;
+  margin-top: 30px;
+  width: 100%;
+
 `;
 
 
 const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 20px;
+  color: white;
+  width: 90%;
+  max-width: 1000px;
+
+  @media (max-width: 768px) {
+    grid-template-rows: 200px 1fr;
+  }
+  @media (max-width: 425px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const Placeholder = styled.div`
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+`;
+
+
+
+const LocationBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    padding: 20px 0;
+  }
+`;
+
+
+const Top = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+`;
+const Temp = styled.h1`
+  display: block;
+  font-size: 2em;
+  margin-right: 20px;
+`;
+
+const Icon = styled.img`
+  display: block;
+`;
+
+const Header = styled.div`
+  font-size: 2em;
+
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
+`;
+
+
+const DateInfo = styled.h1`
+  font-size: 1em;
+  font-weight: 400;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+    margin-left: 14px;
+  }
+`;
+
+
+const WeatherBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
 `;
 
-const Destination = styled.h2`
-  font-size: 2em;
-`;
-
-const DateInfo = styled.h2`
-  font-size: 1em;
-`;
-
-const WeatherBox = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const Temperature = styled.h2`
-  font-size: 2em;
+const Comment = styled.h2`
+  font-size: 1.5em;
+  font-weight: 700;
+  @media (max-width: 768px) {
+    font-size: 1.4em;
+  }
 `;
 
 const Weather = styled.h2`
-  font-size: 2em;
+  font-size: 1em;
+  font-weight: 400;
+
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
 `;
 
-const TempMax = styled.div`
-  font-size: 1em;
-  margin-right: 12px;
+const WeeklyBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / 3;
+  border-top: 2px transparent solid;
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    border-color: gray;
+    padding: 20px 0;
+  }
 `;
 
-const TempMin = styled.div`
-  font-size: 1em;
-  margin-right: 12px;
+const Weekly = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px;
+  width: 100px;
+
+  @media (max-width: 768px) {
+
+  }
 `;
 
-const Humidity = styled.div`
-  font-size: 1em;
+const Day = styled.div`
+  margin-top: 10px;
+  font-size: 0.8em;
+  
 `;
 
 function Forecast ( props ) {
 const { weather } = props;
 
-  const dateBuilder = (d) => {
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let day = days[d.getDay()];
-    let date = d.getDate();
-    let month = months[d.getMonth()];
-    let year = d.getFullYear();
-    return `${day} ${month} ${date}, ${year}`;
-  }
+  // const dateBuilder = (d) => {
+  //   let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  //   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  //   let day = days[d.getDay()];
+  //   let date = d.getDate();
+  //   let month = months[d.getMonth()];
+  //   let year = d.getFullYear();
+  //   return `${day} ${month} ${date}, ${year}`;
+  // }
 
     return (
       <Container>
-        {(typeof weather.main != "undefined") ? (
+        {(typeof weather.region != "undefined") ? (
           <Wrapper>
 
-            <Destination>{weather.name}, {weather.sys.country}</Destination>
-            <DateInfo>{dateBuilder(new Date())}</DateInfo>
+            <LocationBox>
+              <Top>
+                <Temp>{weather.currentConditions.temp.f}°</Temp>
+                <Icon src={weather.currentConditions.iconURL} alt="" />
+              </Top>
+              <Header><LocationOnIcon fontSize='large'/>{weather.region}</Header>
+              <DateInfo>{weather.currentConditions.dayhour}</DateInfo>
+
+            </LocationBox>
+
 
             <WeatherBox>
-              <Temperature>{Math.round(weather.main.temp)} °F</Temperature>
-              <Weather>{weather.weather[0].main}</Weather>
+              <Comment>{weather.currentConditions.comment}</Comment>
+              <Weather>Wind: {weather.currentConditions.wind.mile} mph</Weather>
+              <Weather>Precipitation: {weather.currentConditions.precip}</Weather>
+              <Weather>Humidity: {weather.currentConditions.humidity}</Weather>
             </WeatherBox>
 
-            <WeatherBox>
-              <TempMin>Min {Math.round(weather.main.temp_min)}</TempMin>
-              <TempMax>Max {Math.round(weather.main.temp_max)}</TempMax>
-              <Humidity>Humidity {Math.round(weather.main.humidity)}</Humidity>
-            </WeatherBox>
 
+            <WeeklyBox>
+              {weather.next_days.map((item, index) => (
+                <Weekly key={index}>
+                  <Day>{item.day}</Day>
+                  <Day>{item.max_temp.f}°  {item.min_temp.f}°</Day>
+                  <img src={item.iconURL} alt="" />
+                </Weekly>
+              ))}
+            </WeeklyBox>
           </Wrapper>
-
-        ) : <Wrapper>Type in a city to get live local weather.</Wrapper>}
+        ) : <Placeholder>Type a city name to get live local weather.</Placeholder>}
       </Container>
-  
     );
   }
   
