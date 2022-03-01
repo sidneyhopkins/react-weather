@@ -1,26 +1,27 @@
-# React Weather
+# React Weather App
 
 #### By Sidney Hopkins
 
-#### Type a city name and receive weather data using the OpenWeatherMap API.
+#### Type a city name and receive current weather data and the weekly forecast.
 
 ## Technologies Used
 
-HTML, CSS, JavaScript, React (Styled-Components, Material-UI)
+HTML, CSS, JavaScript, React, Netlify, Styled-Components, Material-UI
 
 ## Description
 
-This application allows users to type a city name and generates the date and local weather data. I've removed my API key for security, but you are welcome to clone the project and add your own API key (link below). Down the road, I would love to create a true backend and avoid this workaround.
+This application allows users to type a city name and generates local weather data. The WeatherDB API was used to obtain weather data.
 
-https://openweathermap.org/api
+### [Link to Site](https://nifty-ptolemy-7a4996.netlify.app/)
 
-## How to use
+## How to Use
+
+The best way to use the Weather App is to [visit the site directly](https://nifty-ptolemy-7a4996.netlify.app/). You can also clone the project locally.
 
 - Clone this repository to your desktop
-- Open the folder in your code editor
-- Paste your personal API key (from https://openweathermap.org/api) into the indicated space at the top of src/App.jsx
 - Navigate to the top level of the directory
-- Run **npm start** in the command line
+- Run **npm i** in the terminal
+- Run **npm start** in the terminal
 
 ## License
 
