@@ -1,38 +1,35 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import sunny from './assets/sunny.jpg';
 import rainy from './assets/rainy.jpg';
 import Forecast from './Forecast';
 import Search from './Search';
 
-
 const Wrapper = styled.div`
+  margin: 0 auto;
   font-family: 'Spartan';
   font-weight: 400;
 `;
 
 const Container = styled.div`
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
+  position: absolute;
   background-image: url(${props => props.rainy ? rainy : sunny });
   background-size: cover;
-  background-position: bottom;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-attachment: fixed;
+  background-clip: border-box;
   margin: -8px;
-
-  /* @media (max-width: 768px) {
-    background-size: cover;
-    background-position: center;
-    
-
-  } */
+  transition: background-image ease 1s;
 `;
 
 const Main = styled.div`
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -50,15 +47,14 @@ function App() {
       .then((result) => {
         setQuery('');
         setWeather(result);
-        console.log(result);
-      });
+      })
     }
   }
 
   return (
     <Wrapper>
-      {(typeof weather.main != 'undefined') ? (    
-        <Container rainy={(weather.currentConditions.comment === "Light snow" ) ? true : false } >
+      {(weather.currentConditions !== undefined) ? (    
+        <Container rainy={(weather.currentConditions.comment === "Mostly sunny" || weather.currentConditions.comment === "Sunny" ) ? false : true } >
           <Main>
             <Search search={search} query={query} setQuery={setQuery} />
             <Forecast weather={weather} />

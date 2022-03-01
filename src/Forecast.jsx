@@ -6,13 +6,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   transition: all 0.5s ease-out;
   margin-top: 30px;
   width: 100%;
-
 `;
-
 
 const Wrapper = styled.div`
   display: grid;
@@ -24,7 +21,7 @@ const Wrapper = styled.div`
   color: white;
   width: 90%;
   max-width: 1000px;
-
+  margin-bottom: 50px;
   @media (max-width: 768px) {
     grid-template-rows: 200px 1fr;
   }
@@ -37,31 +34,28 @@ const Wrapper = styled.div`
 const Placeholder = styled.div`
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: 10px;
+  padding: 20px;
   border-radius: 20px;
+  text-align: center;
 `;
-
-
 
 const LocationBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  
   @media (max-width: 768px) {
     padding: 20px 0;
   }
 `;
-
 
 const Top = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-
 `;
+
 const Temp = styled.h1`
   display: block;
   font-size: 2em;
@@ -73,24 +67,20 @@ const Icon = styled.img`
 `;
 
 const Header = styled.div`
-  font-size: 2em;
-
+  font-size: 1.5em;
   @media (max-width: 768px) {
     font-size: 1em;
   }
 `;
 
-
 const DateInfo = styled.h1`
   font-size: 1em;
   font-weight: 400;
-  
   @media (max-width: 768px) {
     font-size: 0.8em;
     margin-left: 14px;
   }
 `;
-
 
 const WeatherBox = styled.div`
   display: flex;
@@ -110,7 +100,6 @@ const Comment = styled.h2`
 const Weather = styled.h2`
   font-size: 1em;
   font-weight: 400;
-
   @media (max-width: 768px) {
     font-size: 0.8em;
   }
@@ -123,7 +112,6 @@ const WeeklyBox = styled.div`
   grid-column: 1 / 3;
   border-top: 2px transparent solid;
   margin-top: 20px;
-
   @media (max-width: 768px) {
     flex-wrap: wrap;
     border-color: gray;
@@ -138,69 +126,49 @@ const Weekly = styled.div`
   justify-content: space-between;
   margin: 4px;
   width: 100px;
-
   @media (max-width: 768px) {
-
   }
 `;
 
 const Day = styled.div`
   margin-top: 10px;
   font-size: 0.8em;
-  
 `;
 
 function Forecast ( props ) {
-const { weather } = props;
+  const { weather } = props;
 
-  // const dateBuilder = (d) => {
-  //   let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  //   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  //   let day = days[d.getDay()];
-  //   let date = d.getDate();
-  //   let month = months[d.getMonth()];
-  //   let year = d.getFullYear();
-  //   return `${day} ${month} ${date}, ${year}`;
-  // }
+  return (
+    <Container>
+      {(typeof weather.region != "undefined") ? (
+        <Wrapper>
+          <LocationBox>
+            <Top>
+              <Temp>{weather.currentConditions.temp.f}°</Temp>
+              <Icon src={weather.currentConditions.iconURL} alt="" />
+            </Top>
+            <Header><LocationOnIcon fontSize='large'/>{weather.region}</Header>
+            <DateInfo>{weather.currentConditions.dayhour}</DateInfo>
+          </LocationBox>
+          <WeatherBox>
+            <Comment>{weather.currentConditions.comment}</Comment>
+            <Weather>Wind: {weather.currentConditions.wind.mile} mph</Weather>
+            <Weather>Precipitation: {weather.currentConditions.precip}</Weather>
+            <Weather>Humidity: {weather.currentConditions.humidity}</Weather>
+          </WeatherBox>
+          <WeeklyBox>
+            {weather.next_days.map((item, index) => (
+              <Weekly key={index}>
+                <Day>{item.day}</Day>
+                <Day>{item.max_temp.f}°  {item.min_temp.f}°</Day>
+                <img src={item.iconURL} alt="" />
+              </Weekly>
+            ))}
+          </WeeklyBox>
+        </Wrapper>
+      ) : <Placeholder>Type a city name to get live local weather. </Placeholder>}
+    </Container>
+  );
+}
 
-    return (
-      <Container>
-        {(typeof weather.region != "undefined") ? (
-          <Wrapper>
-
-            <LocationBox>
-              <Top>
-                <Temp>{weather.currentConditions.temp.f}°</Temp>
-                <Icon src={weather.currentConditions.iconURL} alt="" />
-              </Top>
-              <Header><LocationOnIcon fontSize='large'/>{weather.region}</Header>
-              <DateInfo>{weather.currentConditions.dayhour}</DateInfo>
-
-            </LocationBox>
-
-
-            <WeatherBox>
-              <Comment>{weather.currentConditions.comment}</Comment>
-              <Weather>Wind: {weather.currentConditions.wind.mile} mph</Weather>
-              <Weather>Precipitation: {weather.currentConditions.precip}</Weather>
-              <Weather>Humidity: {weather.currentConditions.humidity}</Weather>
-            </WeatherBox>
-
-
-            <WeeklyBox>
-              {weather.next_days.map((item, index) => (
-                <Weekly key={index}>
-                  <Day>{item.day}</Day>
-                  <Day>{item.max_temp.f}°  {item.min_temp.f}°</Day>
-                  <img src={item.iconURL} alt="" />
-                </Weekly>
-              ))}
-            </WeeklyBox>
-          </Wrapper>
-        ) : <Placeholder>Type a city name to get live local weather.</Placeholder>}
-      </Container>
-    );
-  }
-  
-  export default Forecast;
-  
+export default Forecast;

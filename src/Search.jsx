@@ -19,13 +19,11 @@ const Input = styled.input`
   color: white;
   font-size: 1em;
   padding: 4px 0;
-  
   &:focus {
     outline: none;
     box-shadow: 0 0 2px white;
     color: white;
   }
-
   &::placeholder {
     color: white;
   }
@@ -42,21 +40,21 @@ const Icon = styled.div`
 function Search( props ) {
   const { search, query, setQuery } = props;
 
-    return (
-        <SearchBox>
-          <Icon onClick={search} >
-            <SearchIcon />
-          </Icon>
-          <Input 
-            autoComplete="off"
-            type='text' 
-            placeholder='Search' 
-            value={query} 
-            onChange={e => setQuery(e.target.value)} 
-            onKeyPress={search} 
-            />
-        </SearchBox>
-    );
+  return (
+    <SearchBox>
+      <Icon onClick={search} >
+        <SearchIcon />
+      </Icon>
+      <Input 
+        autoComplete="off"
+        type='text' 
+        placeholder='Search' 
+        value={query} 
+        onChange={e => setQuery(e.target.value)} 
+        onKeyPress={search} 
+      />
+    </SearchBox>
+  );
 }
 
 export default Search;
