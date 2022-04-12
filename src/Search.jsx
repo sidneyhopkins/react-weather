@@ -29,10 +29,12 @@ const Input = styled.input`
   }
 `;
 
-const Icon = styled.div`
+const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  border: none;
   padding: 3px;
   color: white;
 `;
@@ -40,19 +42,26 @@ const Icon = styled.div`
 function Search( props ) {
   const { search, query, setQuery } = props;
 
+  const handlePress = (e) => {
+    if (e.key ==="Enter") {
+      search()
+    }
+  }
+
   return (
     <SearchBox>
-      <Icon onClick={search} >
-        <SearchIcon />
-      </Icon>
+
       <Input 
         autoComplete="off"
         type='text' 
         placeholder='Search' 
         value={query} 
         onChange={e => setQuery(e.target.value)} 
-        onKeyPress={search} 
+        onKeyPress={e => handlePress(e)}
       />
+      <Button onClick={search} >
+        <SearchIcon />
+      </Button>   
     </SearchBox>
   );
 }

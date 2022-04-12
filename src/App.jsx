@@ -4,6 +4,7 @@ import sunny from './assets/sunny.jpg';
 import rainy from './assets/rainy.jpg';
 import Forecast from './Forecast';
 import Search from './Search';
+import HourglassBottomRoundedIcon from '@mui/icons-material/HourglassBottomRounded';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -36,38 +37,54 @@ const Main = styled.div`
   align-items: center;
 `;
 
+const Loading = styled.div`
+  visibility: hidden;
+  z-index: 2;
+  background-color: black;
+  padding: 10px;
+  height: 20px;
+  color: white;
+`
+
 function App() {
   const [ query, setQuery ] = useState('');
   const [ weather, setWeather ] = useState({});
+  const [loading, setLoading] = useState({});
 
-  const search = (evt) => { 
-    if (evt.key === "Enter") {
+  const search = () => {
+    if (query !== '') {
+      setQuery('')
+      setLoading({visibility:'visible'})
       fetch(`https://weatherdbi.herokuapp.com/data/weather/${query}`)
       .then((res) => res.json())
       .then((result) => {
-        setQuery('');
-        setWeather(result);
+        setLoading({visibility:'hidden'})
+        console.log(result)
+        setWeather(result)
       })
     }
   }
 
   return (
     <Wrapper>
-      {(weather.currentConditions !== undefined) ? (    
-        <Container rainy={(weather.currentConditions.comment === "Mostly sunny" || weather.currentConditions.comment === "Sunny" ) ? false : true } >
-          <Main>
-            <Search search={search} query={query} setQuery={setQuery} />
-            <Forecast weather={weather} />
-          </Main>
-        </Container> 
-      ) : (
-        <Container>
-          <Main>
-            <Search search={search} query={query} setQuery={setQuery} />
-            <Forecast weather={weather} />
-          </Main>
-        </Container>
-      )}
+      {(weather.currentConditions !== undefined) ? 
+        (    
+          <Container rainy={(weather.currentConditions.comment === "Mostly sunny" || weather.currentConditions.comment === "Sunny" ) ? false : true } >
+            <Main>
+              <Search search={search} query={query} setQuery={setQuery} />
+              <Loading style={loading}><HourglassBottomRoundedIcon/></Loading>
+              <Forecast weather={weather} />
+            </Main>
+          </Container> 
+        ) : (
+          <Container>
+            <Main>
+              <Search search={search} query={query} setQuery={setQuery} />
+              <Loading style={loading}><HourglassBottomRoundedIcon/></Loading>
+              <Forecast weather={weather} />
+            </Main>
+          </Container>
+        )}
     </Wrapper>
   )
 }
